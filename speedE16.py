@@ -4,15 +4,23 @@ import os
 
 chunk_size = 1024
 
+
 class SpeedE16:
+    """
+    Client to run upload/download processing.
+    """
 
     def __init__(self, data_dir, base_url):
+        """
+        Constructor with inputs of data dir to store files and url for server.
+        """
         self.data_dir = data_dir
         self.base_url = base_url
 
-
     def upload(self, requests, file):
-
+        """
+        Upload a file to the server and return stats.
+        """
         # Set the source and dest paths
         dest_url = self.base_url + '/upload'
         source_path = os.path.join(self.data_dir, file)
@@ -26,7 +34,7 @@ class SpeedE16:
         # Upload the file and time it
         with open(source_path, 'rb') as f:
             startTime = time.time()
-            r = requests.post(dest_url, files={ 'file': (source_path, 'text/plain')}, max_price=5)
+            r = requests.post(dest_url, files={'file': (file, f)}, max_price=5)
             endTime = time.time()
             uploadElapsedTime = endTime - startTime
 
@@ -34,21 +42,22 @@ class SpeedE16:
         print("Result from upload: " + r.text)
 
         # Verify the upload was successful
-        if r.json()['success'] != True :
-            return { 'success' : False }
+        if r.json()['success'] is not True:
+            return {'success': False}
 
         retVal = {
             'success': True,
-            'time' : uploadElapsedTime,
-            'digest' : beforeDigest,
-            'upload_filename' : r.json()['filename']
+            'time': uploadElapsedTime,
+            'digest': beforeDigest,
+            'upload_filename': r.json()['filename']
         }
 
         return retVal
 
-
     def download(self, requests, file):
-
+        """
+        Download a file and return the stats.
+        """
         # Set the source and dest paths
         source_url = self.base_url + '/download?file=' + file
         dest_path = os.path.join(self.data_dir, file)
@@ -70,15 +79,17 @@ class SpeedE16:
 
         retVal = {
             'success': True,
-            'time' : downloadElapsedTime,
-            'digest' : afterDigest,
-            'download_path' : dest_path
+            'time': downloadElapsedTime,
+            'digest': afterDigest,
+            'download_path': dest_path
         }
 
         return retVal
 
     def remote(self, requests, file, remoteHost):
-
+        """
+        Run a remote request against another host running SpeedE16.
+        """
         # Set the source and dest paths
         remote_url = self.base_url + '/remote?file=' + file + "&host=" + remoteHost
 
