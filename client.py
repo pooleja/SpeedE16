@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-
-import hashlib
-import time
 import os
 import random
 import string
@@ -10,11 +6,15 @@ from speedE16 import SpeedE16
 from two1.commands.util import config
 from two1.wallet import Wallet
 from two1.bitrequests import BitTransferRequests
-from two1.bitrequests import BitRequestsError
 requests = BitTransferRequests(Wallet(), config.Config().username)
 
 mb = 1024 * 1024
+
+
 def testClient(target):
+    """
+    Test client runs an upload and download operation and times both to guage speeed.
+    """
     try:
 
         # Figure out the base paths
@@ -35,17 +35,17 @@ def testClient(target):
         uploadData = speed.upload(requests, fullFilePath)
 
         # Delete the file uploaded file since we don't need it anymore
-        os.remove(fullFilePath)
-        print("Deleted the temp uploaded file: " + fullFilePath)
+        # os.remove(fullFilePath)
+        # print("Deleted the temp uploaded file: " + fullFilePath)
 
         # If the upload succeeded, now test download
-        if uploadData['success'] == True:
+        if uploadData['success'] is True:
 
             print("Upload shows success")
 
             downloadData = speed.download(requests, uploadData['upload_filename'])
 
-            if downloadData['success'] == True:
+            if downloadData['success'] is True:
 
                 print("Download shows success")
 
@@ -80,7 +80,9 @@ if __name__ == '__main__':
     @click.command()
     @click.option("-t", "--target", default="0.0.0.0", help="Target host to run against.")
     def run(target):
-
+        """
+        Runs the client.
+        """
         print("Running upload/download test against: " + target)
         testClient(target)
 
