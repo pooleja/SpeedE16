@@ -1,10 +1,10 @@
-# Swagger definition for the TranscodeE16 Manifest
+# Swagger definition for the SpeedE16 Manifest
 swagger: '2.0'
 
 # Metadata
 info:
   version: "0.0.1"
-  title: TranscodeE16
+  title: SpeedE16
   description: 'Test the bandwidth between nodes on the 21 network in exchange for bitcoin.'
   termsOfService: https://opensource.org/licenses/MIT
   contact:
