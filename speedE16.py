@@ -39,7 +39,6 @@ class SpeedE16:
             uploadElapsedTime = endTime - startTime
 
         print("Uploaded the file.  Elapsed time: " + str(uploadElapsedTime))
-        print("Result from upload: " + r.text)
 
         # Verify the upload was successful
         if r.json()['success'] is not True:

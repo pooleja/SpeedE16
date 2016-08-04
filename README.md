@@ -27,20 +27,19 @@ Next, verify it works by running the client to upload and download a file:
 ```
 $ python3 client.py
 Running upload/download test against: 0.0.0.0
-Created temp file: /home/ubuntu/SpeedE16/client-data/RLUHL142GN0OMISBMGJ1
-Uploaded the file.  Elapsed time: 0.6815180778503418
-Deleted the temp uploaded file: /home/ubuntu/SpeedE16/client-data/RLUHL142GN0OMISBMGJ1
+Created temp file: /home/ubuntu/SpeedE16/client-data/EHZ8X25KSSSECL7OS29N
+Generated a hash of the temp file: 2d81e1ec98c9b0cf48990463f1965784766ab107d9000e62406c9d1de61167a1
+Uploaded the file.  Elapsed time: 0.753319501876831
 Upload shows success
-Downloading: http://0.0.0.0:8016/download?file=71KE80KRQ3MZPE0TOXKN to: /home/ubuntu/SpeedE16/client-data/71KE80KRQ3MZPE0TOXKN
-Downloaded the file.  Elapsed Time: 0.6839721202850342
+Downloading: http://0.0.0.0:8016/download?file=P354TQLHY42867SZTJ5V to: /home/ubuntu/SpeedE16/client-data/P354TQLHY42867SZTJ5V
+Downloaded the file.  Elapsed Time: 0.6069188117980957
 Download shows success
-Deleted the temp downloaded file: /home/ubuntu/SpeedE16/client-data/RLUHL142GN0OMISBMGJ1
-Error: File digests to not match.
-Uploaded File Digest: 14575a5b4f42353db6af278d195e246ef979ec5278c9c41bded4d1a413383139
-Downloaded File Digest: dc23933049d8b06808e15916d9cc735bd5c82fc87e5f3a970442f6fc04f5a275
-Upload Speed: 11.738500063320055 Mbps
-Download Speed: 11.696383175188677 Mbps
+Deleted the temp downloaded file: /home/ubuntu/SpeedE16/client-data/EHZ8X25KSSSECL7OS29N
+Upload Speed: 10.619664007195732 Mbps
+Download Speed: 13.181334709825023 Mbps
 ```
+Here you see the upload and download speeds are reported when running against localhost.
+
 ### Make Sure it Stays Running
 To ensure the server stays running across reboots, you can create a reboot cron job.  This will ensure it will be restarted any time the device comes back online.
 
