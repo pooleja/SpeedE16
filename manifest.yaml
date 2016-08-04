@@ -1,27 +1,155 @@
-basePath: /
-definitions:
-host: 10.244.79.96:8016
-info:
-  contact: {email: james@microtrx.com, name: eSixteen.co }
-  description: Get machine upload/download stats on demand for bitcoin.
-  title: SpeedE16
-  x-21-category: utilities
-  x-21-github-project-url: https://github.com/pooleja/SpeedE16
-  x-21-keywords: [stats, speed, upload, download, test, iot, sensor]
-  x-21-quick-buy: "$ 21 buy http://10.244.79.96:8016/"
-  x-21-total-price: {max: 5, min: 5}
-paths:
-  /:
-    get:
-      consumes: [application/x-www-form-urlencoded]
-      produces: [application/json]
-      responses:
-        200:
-          description: Stats for the location and hardware of the server.
-          schema:
-            properties:
-              server: {$ref: '#/definitions/Server'}
-      summary: Returns stats about the device.
-schemes: [http]
+# Swagger definition for the TranscodeE16 Manifest
 swagger: '2.0'
+
+# Metadata
+info:
+  version: "0.0.1"
+  title: TranscodeE16
+  description: 'Test the bandwidth between nodes on the 21 network in exchange for bitcoin.'
+  termsOfService: https://opensource.org/licenses/MIT
+  contact:
+    email: james@esixteen.co
+    name: eSixteen.co
+    url: https://www.esixteen.co/speede16
+  x-21-usage: 'Use the available API endpoints upload and download files to the server to generate bandwidth stats.'
+  x-21-quick-buy: "21 buy url http://10.244.113.158:8016/download?file=<FILE_ID>"
+  x-21-category: utilities
+  x-21-github-profile-url: https://github.com/pooleja
+  x-21-github-project-url: hthttps://github.com/pooleja/SpeedE16
+  x-21-keywords: [stats, speed, bandwidth, download, test, iot, sensor]
+  x-21-total-price:
+     min: 5
+     max: 10
+host: 10.244.113.158:8016
+schemes:
+   - http
+basePath: /
 x-21-manifest-path: /manifest
+
+# Available paths for the app
+paths:
+  /manifest:
+    get:
+      description: Gets the `manifest` of the application.
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successfully found the manifest YAML file and returned it to client.
+
+  /upload:
+    post:
+      description: Upload a file to the server to test upload speed from a client.  The filename returned will be a random number to allow you to try and download it at a later time in order to test download speed.
+
+      consumes:
+        -
+          multipart/form-data
+
+      parameters:
+        -
+          name: file
+          in: formData
+          description: The uploaded file data
+          required: true
+          type: file
+
+      # Expected responses for this operation:
+      responses:
+
+        # Response code
+        200:
+          description: Successful Response
+          schema:
+            title: Result
+            type: object
+            properties:
+              success:
+                type: boolean
+              filename:
+                type: string
+
+        # Response code
+        400:
+          description: Invalid Params
+          schema:
+            title: Result
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                type: string
+
+  /download:
+    get:
+      description: Retrieves the specified file for the client.  This will allow the client to test download speed from the server.
+
+      parameters:
+        -
+          name: file
+          in: query
+          description: File ID returned from a previous `/upload` request.
+          required: true
+          type: string
+
+      # Expected responses for this operation:
+      responses:
+
+        # Response code
+        200:
+          description: Successful response
+          schema:
+            type: file
+
+        # Response code
+        404:
+          description: Failure or unable to find specified file
+          schema:
+            title: Result
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                type: string
+
+  /remote:
+    get:
+      description: Allows the server to act as a remote client to another SpeedE16 sever to test bandwidth between the nodes.
+
+      parameters:
+        -
+          name: file
+          in: query
+          description: File ID returned from a previous `/upload` request against the remote host.
+          required: true
+          type: string
+        -
+          name: host
+          in: query
+          description: The remote host to run against.
+          required: true
+          type: string
+
+      # Expected responses for this operation:
+      responses:
+
+        # Response code
+        200:
+          description: Successful response
+          schema:
+            title: Result
+            type: object
+            properties:
+              success:
+                type: boolean
+              time:
+                type: number
+              digest:
+                type: string
+
+
+        # Response code
+        500:
+          description: Internal Error.

@@ -41,9 +41,11 @@ log.setLevel(logging.ERROR)
 
 dataDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'server-data')
 
+
 @app.route('/manifest')
 def manifest():
-    """Provide the app manifest to the 21 crawler.
+    """
+    Provide the app manifest to the 21 crawler.
     """
     with open('./manifest.yaml', 'r') as f:
         manifest = yaml.load(f)
@@ -53,52 +55,51 @@ def manifest():
 @app.route('/upload', methods=['POST'])
 @payment.required(5)
 def upload():
-    print("Upload requested.")
-
+    """
+    Upload a file in order for client to test upload speed.  File will be saved for later retrieval by client.
+    """
     # First, clear out any old uploaded files that are older than an hour
     delete_before_time = time.time() - (60 * 60)
     files = glob.glob(os.path.join(dataDir, "*"))
     for file in files:
-        if file.endswith(".md") != True and os.path.isfile(file) == True :
-            if os.path.getmtime(file) < delete_before_time :
+        if file.endswith(".md") is not True and os.path.isfile(file) is True:
+            if os.path.getmtime(file) < delete_before_time:
                 print("Removing old file: " + file)
                 os.remove(file)
 
-
     # check if the post request has the file part
     if 'file' not in request.files:
-        return 'File Upload arg not found', 400
+        return json.dumps({'success': False, 'error': 'File Upload arg not found'}, indent=4, sort_keys=True), 400
 
     file = request.files['file']
 
     # if user does not select file, browser also submits an empty part without filename
     if file.filename == '':
-        return 'No selected file', 400
+        return json.dumps({'success': False, 'error': 'No selected file'}, indent=4, sort_keys=True), 400
 
     # Generate a random file name and save it
     filename = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
     file.save(os.path.join(dataDir, filename))
 
     # Return the file name so the client knows what to request to test download
-    return json.dumps({ 'success' : True, 'filename' : filename }, indent=4, sort_keys=True)
+    return json.dumps({'success': True, 'filename': filename}, indent=4, sort_keys=True)
+
 
 @app.route('/download')
 @payment.required(5)
 def download():
-    """ Downloads the file requested by the query param
+    """
+    Downloads the file requested by the query param.
 
     Returns: HTTPResponse 200 the file payload.
     HTTP Response 404 if the file is not found.
     """
-
-    print("Download requested.")
-
     # Build the path to the file from the current dir + data dir + requested file name
     requestedFile = request.args.get('file')
     filePath = os.path.join(dataDir, requestedFile)
 
-    if os.path.isfile(filePath) != True :
-        return 'HTTP Status 404: Requested file not found', 404
+    if os.path.isfile(filePath) is not True:
+        return json.dumps({'success': False, 'error': 'Requested file not found'}, indent=4, sort_keys=True), 404
 
     return send_from_directory(dataDir, requestedFile)
 
