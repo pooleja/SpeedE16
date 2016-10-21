@@ -26,12 +26,12 @@ Server running...
 Next, verify it works by running the client to upload and download a file:
 ```
 $ python3 client.py
-Running upload/download test against: 0.0.0.0
+Running upload/download test against: ::
 Created temp file: /home/ubuntu/SpeedE16/client-data/EHZ8X25KSSSECL7OS29N
 Generated a hash of the temp file: 2d81e1ec98c9b0cf48990463f1965784766ab107d9000e62406c9d1de61167a1
 Uploaded the file.  Elapsed time: 0.753319501876831
 Upload shows success
-Downloading: http://0.0.0.0:8016/download?file=P354TQLHY42867SZTJ5V to: /home/ubuntu/SpeedE16/client-data/P354TQLHY42867SZTJ5V
+Downloading: http://[::]:8016/download?file=P354TQLHY42867SZTJ5V to: /home/ubuntu/SpeedE16/client-data/P354TQLHY42867SZTJ5V
 Downloaded the file.  Elapsed Time: 0.6069188117980957
 Download shows success
 Deleted the temp downloaded file: /home/ubuntu/SpeedE16/client-data/EHZ8X25KSSSECL7OS29N

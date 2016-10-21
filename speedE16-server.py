@@ -41,17 +41,6 @@ log.setLevel(logging.ERROR)
 
 dataDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'server-data')
 
-
-@app.route('/manifest')
-def manifest():
-    """
-    Provide the app manifest to the 21 crawler.
-    """
-    with open('./manifest.yaml', 'r') as f:
-        manifest = yaml.load(f)
-    return json.dumps(manifest)
-
-
 @app.route('/upload', methods=['POST'])
 @payment.required(5)
 def upload():
@@ -163,6 +152,6 @@ if __name__ == '__main__':
                 raise ValueError("error starting speedE16-server.py daemon")
         else:
             print("Server running...")
-            app.run(host='0.0.0.0', port=8016)
+            app.run(host='::', port=8016)
 
     run()

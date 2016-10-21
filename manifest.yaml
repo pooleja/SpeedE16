@@ -12,7 +12,8 @@ info:
     name: eSixteen.co
     url: https://www.esixteen.co/speede16
   x-21-usage: 'Use the available API endpoints upload and download files to the server to generate bandwidth stats.'
-  x-21-quick-buy: "21 buy url http://10.244.113.158:8016/download?file=<FILE_ID>"
+  x-21-quick-buy: "21 buy url http://[fcce:a977:eec7:c71c:1c43:0000:0000:0001]:8016/download?file=<FILE_ID>"
+  x-21-app-image: https://cdn.filepicker.io/api/file/xpq5tK5nSTm5ZuH2B3BW
   x-21-category: utilities
   x-21-github-profile-url: https://github.com/pooleja
   x-21-github-project-url: hthttps://github.com/pooleja/SpeedE16
@@ -20,7 +21,7 @@ info:
   x-21-total-price:
      min: 5
      max: 10
-host: 10.244.113.158:8016
+host: '[fcce:a977:eec7:c71c:1c43:0000:0000:0001]:8016'
 schemes:
    - http
 basePath: /
@@ -28,15 +29,6 @@ x-21-manifest-path: /manifest
 
 # Available paths for the app
 paths:
-  /manifest:
-    get:
-      description: Gets the `manifest` of the application.
-
-      # Expected responses for this operation:
-      responses:
-        # Response code
-        200:
-          description: Successfully found the manifest YAML file and returned it to client.
 
   /upload:
     post:

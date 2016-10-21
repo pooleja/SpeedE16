@@ -31,8 +31,8 @@ def testClientServer(clientHost, serverHost, output):
 
         # Figure out the base paths
         dataDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'client-data')
-        clientBaseUrl = "http://" + clientHost + ":8016"
-        serverBaseUrl = "http://" + serverHost + ":8016"
+        clientBaseUrl = "http://[" + clientHost + "]:8016"
+        serverBaseUrl = "http://[" + serverHost + "]:8016"
 
         # Create the speed testing client
         clientSpeed = SpeedE16(dataDir, clientBaseUrl)
@@ -97,8 +97,8 @@ if __name__ == '__main__':
     import click
 
     @click.command()
-    @click.option("-c", "--client", default="0.0.0.0", help="Host that will try and download a file from the Server.")
-    @click.option("-s", "--server", default="0.0.0.0", help="Host where the file will be uploaded to.")
+    @click.option("-c", "--client", default="::", help="Host that will try and download a file from the Server.")
+    @click.option("-s", "--server", default="::", help="Host where the file will be uploaded to.")
     @click.option("-o", "--output", default="output.json", help="File where JSON output data will be written.")
     def run(client, server, output):
 

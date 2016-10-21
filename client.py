@@ -19,7 +19,7 @@ def testClient(target):
 
         # Figure out the base paths
         dataDir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'client-data')
-        baseUrl = 'http://' + target + ':8016'
+        baseUrl = 'http://[' + target + ']:8016'
 
         # Create the speed testing client
         speed = SpeedE16(dataDir, baseUrl)
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     import click
 
     @click.command()
-    @click.option("-t", "--target", default="0.0.0.0", help="Target host to run against.")
+    @click.option("-t", "--target", default="localhost", help="Target host to run against.")
     def run(target):
         """
         Runs the client.
