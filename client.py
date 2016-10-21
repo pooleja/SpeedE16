@@ -78,7 +78,7 @@ if __name__ == '__main__':
     import click
 
     @click.command()
-    @click.option("-t", "--target", default="localhost", help="Target host to run against.")
+    @click.option("-t", "--target", default="::", help="Target host to run against.")
     def run(target):
         """
         Runs the client.
